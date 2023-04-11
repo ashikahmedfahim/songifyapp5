@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSearchResult } from "../slices/searchSlice";
+import { getSearchResult, setSelectedResult } from "../slices/searchSlice";
 import Container from "../components/Container";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [searchedTerm, setSearchedTerm] = useState("");
   const { searchResult } = useSelector((state) => state.search);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSelected = (item) => {
+    dispatch(setSelectedResult(item));
+    navigate(`/music/${item.id}`);
+  };
 
   useEffect(() => {
     if (searchedTerm.length > 0) {
@@ -32,8 +39,9 @@ const Home = () => {
                     <div
                       key={index}
                       className="p-2 hover:bg-slate-100 rounded-lg cursor-pointer"
+                      onClick={() => handleSelected(item)}
                     >
-                      {item.name}
+                      {item.title}
                     </div>
                   ))}
                 </div>

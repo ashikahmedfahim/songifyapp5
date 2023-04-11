@@ -2,24 +2,42 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  searchedTerm: "",
   searchResult: [],
+  selctedResult: {},
 };
+
+export const getSelectedResult = createAsyncThunk(
+  "search/getSelectedResult",
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_MUSIC_API_URL}/recording/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
 
 export const getSearchResult = createAsyncThunk(
   "search/getSearchResult",
   async (search, thunkAPI) => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_MUSIC_API_URL}/label?query=${search}&limit=10&offset=0`,
+        `${process.env.REACT_APP_MUSIC_API_URL}/recording?query=${search}`,
         {
           headers: {
-            "User-Agent": `songifyapp5/1.0.0 ( ${process.env.REACT_APP_MUSIC_SERVICE_EMAIL} )`,
             "Content-Type": "application/json",
           },
         }
       );
-      return data.labels ? data.labels : [];
+      return data.recordings;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
     }
@@ -29,6 +47,11 @@ export const getSearchResult = createAsyncThunk(
 const searchSlice = createSlice({
   name: "search",
   initialState,
+  reducers: {
+    setSelectedResult: (state, action) => {
+      state.selctedResult = action.payload;
+    },
+  },
   extraReducers: {
     [getSearchResult.pending]: (state) => {
       state.isLoading = true;
@@ -40,7 +63,19 @@ const searchSlice = createSlice({
     [getSearchResult.rejected]: (state) => {
       state.isLoading = false;
     },
+    [getSelectedResult.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getSelectedResult.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.selctedResult = action.payload;
+    },
+    [getSelectedResult.rejected]: (state) => {
+      state.isLoading = false;
+    },
   },
 });
+
+export const { setSelectedResult } = searchSlice.actions;
 
 export default searchSlice.reducer;
