@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSearchResult } from "../slices/searchSlice";
+import Container from "../components/Container";
 
 const Home = () => {
   const [searchedTerm, setSearchedTerm] = useState("");
@@ -14,7 +15,7 @@ const Home = () => {
   }, [searchedTerm]);
 
   return (
-    <div className="container mx-auto py-2">
+    <Container>
       <div className="flex justify-center items-center m-5">
         <div className="min-w-full md:min-w-[500px] relative">
           <input
@@ -47,7 +48,7 @@ const Home = () => {
           )}
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
