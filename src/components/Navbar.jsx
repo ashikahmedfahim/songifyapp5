@@ -12,7 +12,7 @@ const Navbar = () => {
   const { darkMode } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   return (
-    <Container>
+    <div className="py-2">
       <div className="-mt-2 flex justify-between items-center py-2 px-2 md:px-5 bg-blue-500 text-white select-none">
         <Link to="/" className="mx-2 text-2xl font-semibold">
           Music App
@@ -73,7 +73,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 
