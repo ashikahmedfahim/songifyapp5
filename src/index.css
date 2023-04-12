@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-body-black{
+    background-color: #000000;
+    min-height: 100vh;
+    overflow-x: auto;
+}

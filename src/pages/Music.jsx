@@ -13,6 +13,8 @@ const Music = () => {
   const searchState = useSelector((state) => state.search);
   const gifState = useSelector((state) => state.gif);
   const { favourites } = useSelector((state) => state.favourite);
+  const { darkMode } = useSelector((state) => state.theme);
+
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -57,7 +59,7 @@ const Music = () => {
 
   return (
     <Container>
-      <div className="flex flex-col justify-center items-center m-5 min-h-screen">
+    <div className={`flex flex-col justify-center items-center m-5 ${darkMode ? 'text-white' : ''}`}>
         {searchState.isLoading ? (
           <Loader />
         ) : (
