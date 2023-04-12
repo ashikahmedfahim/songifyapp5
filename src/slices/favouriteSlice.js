@@ -9,7 +9,10 @@ const favouriteSlice = createSlice({
   initialState,
   reducers: {
     addToFavourite: (state, action) => {
-      state.favourites.push(action.payload);
+      const isExist = state.favourites.find(
+        (item) => item.id === action.payload.id
+      );
+      if (!isExist) state.favourites.push(action.payload);
     },
     removeFromFavourite: (state, action) => {
       state.favourites = state.favourites.filter(

@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { addToFavourite } from "./slices/favouriteSlice";
 
 function App() {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
